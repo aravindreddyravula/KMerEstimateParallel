@@ -26,5 +26,5 @@ Compile:
 Run:
 
 
-		./a.exe -f <seq.fa> -k  <kmerLen> -s <minHeap_Size> -c <coverage> -o <out.txt>  
+		./a.exe -f <seq.fa> -k  <kmerLen> -s <minHeap_Size> -c <coverage> -o <out.txt> -np<NoOfProducers> -nt <NoOfConsumers> 
   
