@@ -1,8 +1,6 @@
 Hardware Specifications:
 
-
 OS - Windows 10
-
 
 RAM - 8GB
 
@@ -10,14 +8,12 @@ Software Specifications:
 
 C++11
 
-
 Cygwin
-
 
 Sublime Text Editor
 
 
-
+Note: Install zlib package which is necessary for compression(In our case hashing)
 
 
 
