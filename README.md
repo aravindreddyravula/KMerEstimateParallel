@@ -23,8 +23,7 @@ Sublime Text Editor
 Installing
 ----------
 
-Note: Install zlib package which is necessary for compression(In our case hashing)
-
+zlib is designed to be a free, general-purpose, legally unencumbered -- that is, not covered by any patents -- lossless data-compression library for use on virtually any computer hardware and operating system. The link for downloading zlib is http://gnuwin32.sourceforge.net/packages/zlib.htm
 
 
 
@@ -56,5 +55,5 @@ Compile:
 Run:
 
 
-		./a.exe -f <seq.fa> -k  <kmerLen> -s <minHeap_Size> -c <coverage> -o <out.txt> -np<NoOfProducers> -nt <NoOfConsumers> 
+		./a.exe -f <seq.fa> -k  <kmerLen> -s <minHeap_Size> -c <coverage> -o <out.txt> -np <NoOfProducers> -nt <NoOfConsumers> 
   
