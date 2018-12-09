@@ -1,16 +1,20 @@
-### KmerEstimate: A Streaming Algorithm for Estimating k-mer Counts with Optimal Space Usage - Parallel Implementation
+KmerEstimate: A Streaming Algorithm for Estimating k-mer Counts with Optimal Space Usage - Parallel Implementation
+------------------------------------------------------------------------------------------------------------------
 
 Describe
 
-### Prerequisites
+Prerequisites
+-------------
 
-### Hardware Requirements
+Hardware Requirements
+---------------------
 
 OS - Windows 10
 
 RAM - 8GB
 
-### Software Requirements
+Software Requirements
+---------------------
 
 C++11
 
@@ -18,7 +22,8 @@ Cygwin
 
 Sublime Text Editor
 
-### Installing
+Installing
+----------
 
 Note: Install zlib package which is necessary for compression(In our case hashing)
 
