@@ -1,14 +1,30 @@
-Compile and Run
+Compile and Run Serial Implementation
 ------------------------------
+
+
 Compile:
 
 
-		g++ -o kmerEst kmerCountEstimate.cpp -std=c++11 -O3 -march=native
-
+		g++ kmerCountEstimate_serial.cpp -lpthread -lz -std=c++11
+		
+		
 Run:
 
-		./KmerEst -f <seq.fa> -k  <kmerLen> -s <minHeap_Size> -c <coverage> -o <out.txt>
+
+		./a.exe -f <seq.fa> -k  <kmerLen> -s <minHeap_Size> -c <coverage> -o <out.txt>
   
-  
-  
+ Compile and Run Parallel Implementation
+------------------------------ 
+
+
+Compile:
+
+
+		g++ kmerCountEstimate_parallel.cpp FastxParser.cpp -lpthread -lz -std=c++11
+		
+		
+Run:
+
+
+		./a.exe -f <seq.fa> -k  <kmerLen> -s <minHeap_Size> -c <coverage> -o <out.txt> -np<NoOfProducers> -nt <NoOfConsumers> 
   
