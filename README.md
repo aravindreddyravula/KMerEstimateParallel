@@ -1,3 +1,27 @@
+Hardware Specifications:
+
+
+OS - Windows 10
+
+
+RAM - 8GB
+
+Software Specifications:
+
+C++11
+
+
+Cygwin
+
+
+Sublime Text Editor
+
+
+
+
+
+
+
 Compile and Run Serial Implementation
 ------------------------------
 
