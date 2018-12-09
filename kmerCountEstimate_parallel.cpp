@@ -58,7 +58,7 @@ using namespace std;
 //KSEQ_INIT(gzFile, gzread)
 KSEQ_INIT(int, read)
 std::map<char, char> mapp = {{'A', 'T'}, {'C', 'G'}, {'G', 'C'}, {'T', 'A'}, {'N', 'N'}};
-  
+
 static const int MultiplyDeBruijnBitPosition[32] =
 {
   0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8,
@@ -69,7 +69,7 @@ unsigned trailing_zeros(unsigned n) {
 }
 
 static const char basemap[255] =
-    {   
+    {
         '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', /*   0 -   9 */
         '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', /*  10 -  19 */
         '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', /*  20 -  29 */
@@ -104,7 +104,7 @@ unsigned trailing_zeros(uint64_t n) {
 
 void printHelp()
 {
-    
+
     cout << "KmerEst [options] -f <fasta/fastq> -k <k-mer length>  -s <sample size> -o <output file>"    << endl
     << "  -h               help"                                   << endl
     << "  -f <file>       Input sequence file "                << endl
@@ -112,24 +112,24 @@ void printHelp()
     << "  -s <sample size>        sample size (default 25m)"        << endl
      << "  -c coverage>       coverage (default 64)"        << endl
     << "  -o         	  Prefix of the Output file " << endl;
-    
+
     exit(0);
 }
- 
+
 int main(int argc, char** argv)
 {
-    
+
     if(argc == 1){
       cout << argv[0] << " -f <seq.fa> -k  <kmerLen> -s <minHeap_Size> -c <coverage> -o <out.txt>" << endl;
       exit(0);
-    } 
+    }
     int n=31;
     int s = 25000000;
     int cov = 64;
     string f = "", outf = "";
     for (int c = 1; c < argc; c++)
         {
-            
+
             if (!strcmp(argv[c], "-h"))       { printHelp(); }
             else if (!strcmp(argv[c], "-k"))     { n = atoi(argv[c+1]); c++; }
             else if (!strcmp(argv[c], "-f"))    { f = argv[c+1]; c++; }
@@ -137,20 +137,20 @@ int main(int argc, char** argv)
             else if (!strcmp(argv[c], "-c"))    { cov = atoi(argv[c+1]); c++; }
             else if (!strcmp(argv[c], "-o")) { outf = argv[c+1]; c++; }
         }
-        
+
        if (f.empty()  || outf.empty())
         {
           printHelp();
         }
-    
+
     int k = s;
     mutex locks[64],count_lock,th_lock;
     typedef sparse_hash_map<uint64_t, uint32_t> SMap;
     vector<SMap> MAP(64);
- 
-    
+
+
     // nt is the no of reader threads on FQFeeder queue, np is the no of threads writing to the queue
-    size_t nt = 10;
+    size_t nt = 4;
     size_t np = 1;
 
     int th = 0;
@@ -161,10 +161,10 @@ int main(int argc, char** argv)
     uint64_t hash[nt]={0}, fhVal=0, rhVal=0;
     std::vector<std::string> fp;
     fp.push_back(f);
-    
+
     //Creating instance of FastxParser
     fastx_parser::FastxParser<fastx_parser::ReadSeq> parser(fp, nt, np);
-    
+
     parser.start();
     cout << "read the Sequences .. " << endl;
 
@@ -187,11 +187,11 @@ int main(int argc, char** argv)
                 if(tz >= th){
                     // A thread is acquiring lock on the hash table which has k-mers with no of trailing zeros tz
                     locks[tz].lock();
-                    if(MAP[tz].find(hash[i]) != MAP[tz].end()) MAP[tz][hash[i]] += 1; 
-                    else{ 
-                      MAP[tz].insert(make_pair(hash[i], 1)); 
+                    if(MAP[tz].find(hash[i]) != MAP[tz].end()) MAP[tz][hash[i]] += 1;
+                    else{
+                      MAP[tz].insert(make_pair(hash[i], 1));
                       count_lock.lock();
-                      ++count; 
+                      ++count;
                       if(count == k){
                         int cnt = MAP[th].size();
                         count = count - cnt;
@@ -200,7 +200,7 @@ int main(int argc, char** argv)
                         ++th;
                         th_lock.unlock();
 
-                        cout  << "count: " << count << endl; 
+                        cout  << "count: " << count << endl;
                       }
                       count_lock.unlock();
                     }
@@ -208,7 +208,7 @@ int main(int argc, char** argv)
                 }
                 ++itr;
               }
-           
+
           }
         } else {
           break;
@@ -217,7 +217,7 @@ int main(int argc, char** argv)
     }
     );
   }
-  
+
     for (auto& t : readers) {
       t.join();
     }
@@ -230,13 +230,13 @@ int main(int argc, char** argv)
     }
     high_resolution_clock::time_point stop = chrono::high_resolution_clock::now();
     duration<double> time_span = duration_cast<duration<double>>(stop - start);
-    cout<< "execution time: "<<time_span.count()<<endl; 
+    cout<< "execution time: "<<time_span.count()<<endl;
 
 
     cout << "th: " << th << endl;
     cout << "No. of sequences: " << total << endl;
     FILE *fo = fopen(outf.c_str(), "w");
-    uint32_t csize = 0; 
+    uint32_t csize = 0;
     for(int i=th; i<64; i++) csize += MAP[i].size();
     unsigned long F0 = csize * pow(2, (th));
     cout << "F0: " << F0 << endl;
@@ -253,14 +253,14 @@ int main(int argc, char** argv)
       for(auto& p: MAP[i]){
         if(p.second <= cov) freq[p.second]++;
       }
-    } 
-  
+    }
+
     cout << "th: " << th << endl;
     for(int i=1; i<=cov; i++){
       unsigned long fff = (freq[i]*pow(2, th));
-      fprintf(fo, "f%d\t%lu\n", i, fff); 
+      fprintf(fo, "f%d\t%lu\n", i, fff);
     }
     fclose(fo);
     return 0;
-        
+
 }
