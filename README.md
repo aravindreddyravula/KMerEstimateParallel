@@ -3,8 +3,6 @@ KmerEstimate: A Streaming Algorithm for Estimating k-mer Counts with Optimal Spa
 
 Describe
 
-Prerequisites
--------------
 
 Hardware Requirements
 ---------------------
